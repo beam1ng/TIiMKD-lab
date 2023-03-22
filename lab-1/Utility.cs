@@ -86,5 +86,35 @@ public static class Utility
 
         return charsToFrequencies;
     }
+    
+    public static Dictionary<char, float> CalculateCharactersFrequencies(string text, string prefix)
+    {
+        var charsToFrequencies = new Dictionary<char, float>();
+        var charsCounts = new Dictionary<char, int>();
+        var possibleChars = "abcdefghijklmnopqrstuvwxyz 0123456789";
+        float validCharsCount = 0f;
+        
+        for (int i = 0; i <possibleChars.Length; i++)
+        {
+            charsToFrequencies.Add(possibleChars[i],0f);
+            charsCounts.Add(possibleChars[i],0);
+        }
+
+        for (int i = prefix.Length; i < text.Length; i++)
+        {
+            if (text.Substring(i-prefix.Length,prefix.Length) == prefix)
+            {
+                charsCounts[text[i]]++;
+                validCharsCount++;
+            }
+        }
+
+        for (int i = 0; i <possibleChars.Length; i++)
+        {
+            charsToFrequencies[possibleChars[i]]=charsCounts[possibleChars[i]]/validCharsCount;
+        }
+
+        return charsToFrequencies;
+    }
 }
 

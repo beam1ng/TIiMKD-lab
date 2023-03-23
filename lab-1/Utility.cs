@@ -116,17 +116,31 @@ public static class Utility
         return charsToFrequencies;
     }
 
-    
-    
-    public static Dictionary<string,Dictionary<char, float>> GetSequencesFrequencies(int length)
+    public static List<string> GetAllSequences(string text, int length)
     {
-        Dictionary<string,Dictionary<char, float>> sequencesFrequencies = new Dictionary<string,Dictionary<char, float>>();
-        List<string> allSequences = GetAllSequences(2);
-        for (int i = 0; i < allSequences.Count; i++)
+        List<string> allSequences = new List<string>();
+        for (int i = length; i < text.Length; i++)
         {
-            sequencesFrequencies.Add(allSequences[i],new Dictionary<char, float>());
-            for(int j = 0;j<possibleChars.l)
+            string currentSequence = text.Substring(i-length, length);
+            if (!allSequences.Contains(currentSequence))
+            {
+                allSequences.Add(currentSequence);
+            }
         }
+
+        return allSequences;
+    }
+    
+    public static Dictionary<string,Dictionary<char, float>> GetSequencesToCharFrequencies(string text, int length)
+    {
+        Dictionary<string,Dictionary<char, float>> sequencesToCharFrequencies = new Dictionary<string,Dictionary<char, float>>();
+        List<string> allSequences = GetAllSequences(text, length);
+        foreach (var t in allSequences)
+        {
+            sequencesToCharFrequencies.Add(t,CalculateCharactersFrequencies(text, t));
+        }
+
+        return sequencesToCharFrequencies;
     }
 }
 

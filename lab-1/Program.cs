@@ -39,3 +39,5 @@ var wikiText = File.ReadAllText(relativeFilePath);
 // }
 
 //task 5
+var sequencesToCharFrequencies = Utility.GetSequencesToCharFrequencies(wikiText,2);
+var xd = 0;

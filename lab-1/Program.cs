@@ -39,8 +39,12 @@ var wikiText = File.ReadAllText(relativeFilePath);
 // }
 
 //task 5
-var markovDegree = 5;
-var sequencesToCharsFrequencies = Utility.GetSequencesToCharFrequencies(wikiText,markovDegree);
-var markovSelector = new MarkovWeighedRandomSelector(sequencesToCharsFrequencies);
-var markovGenerated = RandomStringGenerator.GenerateMarkovWeighed(100,markovSelector,markovDegree);
-Console.WriteLine(markovGenerated);
+var markovDegrees = new List<int> { 1, 3, 5 };
+foreach (var markovDegree in markovDegrees)
+{
+    var sequencesToCharsFrequencies = Utility.GetSequencesToCharFrequencies(wikiText,markovDegree);
+    var markovSelector = new MarkovWeighedRandomSelector(sequencesToCharsFrequencies);
+    var markovGenerated = RandomStringGenerator.GenerateMarkovWeighed(10000,markovSelector,markovDegree);
+    Console.WriteLine($"MarkovDegree: {markovDegree}, Generated text: {markovGenerated.Substring(0,100)}...");
+    Console.WriteLine($"Mean word length: {Utility.CalculateMeanWordLength(markovGenerated)}");
+}

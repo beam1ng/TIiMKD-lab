@@ -4,6 +4,7 @@ namespace TIiMKD_lab;
 
 public static class Utility
 {
+    public static string possibleChars = "abcdefghijklmnopqrstuvwxyz 0123456789";
     public static float CalculateMeanWordLength(string text)
     {
         StringBuilder mutableText = new StringBuilder("");
@@ -34,8 +35,7 @@ public static class Utility
     {
         var charsToFrequencies = new Dictionary<char, float>();
         var charsCounts = new Dictionary<char, int>();
-        var possibleChars = "abcdefghijklmnopqrstuvwxyz 0123456789";
-        
+
         for (int i = 0; i <possibleChars.Length; i++)
         {
             charsToFrequencies.Add(possibleChars[i],0f);
@@ -61,7 +61,6 @@ public static class Utility
     {
         var charsToFrequencies = new Dictionary<char, float>();
         var charsCounts = new Dictionary<char, int>();
-        var possibleChars = "abcdefghijklmnopqrstuvwxyz 0123456789";
         float validCharsCount = 0f;
         
         for (int i = 0; i <possibleChars.Length; i++)
@@ -91,7 +90,7 @@ public static class Utility
     {
         var charsToFrequencies = new Dictionary<char, float>();
         var charsCounts = new Dictionary<char, int>();
-        var possibleChars = "abcdefghijklmnopqrstuvwxyz 0123456789";
+        
         float validCharsCount = 0f;
         
         for (int i = 0; i <possibleChars.Length; i++)
@@ -115,6 +114,19 @@ public static class Utility
         }
 
         return charsToFrequencies;
+    }
+
+    
+    
+    public static Dictionary<string,Dictionary<char, float>> GetSequencesFrequencies(int length)
+    {
+        Dictionary<string,Dictionary<char, float>> sequencesFrequencies = new Dictionary<string,Dictionary<char, float>>();
+        List<string> allSequences = GetAllSequences(2);
+        for (int i = 0; i < allSequences.Count; i++)
+        {
+            sequencesFrequencies.Add(allSequences[i],new Dictionary<char, float>());
+            for(int j = 0;j<possibleChars.l)
+        }
     }
 }
 

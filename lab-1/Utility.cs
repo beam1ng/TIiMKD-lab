@@ -5,6 +5,11 @@ namespace TIiMKD_lab;
 public static class Utility
 {
     public static string possibleChars = "abcdefghijklmnopqrstuvwxyz 0123456789";
+
+    public static char GetRandomCharacter()
+    {
+        return possibleChars[new Random().Next(0, possibleChars.Length)];
+    }
     public static float CalculateMeanWordLength(string text)
     {
         StringBuilder mutableText = new StringBuilder("");
@@ -134,10 +139,39 @@ public static class Utility
     public static Dictionary<string,Dictionary<char, float>> GetSequencesToCharFrequencies(string text, int length)
     {
         Dictionary<string,Dictionary<char, float>> sequencesToCharFrequencies = new Dictionary<string,Dictionary<char, float>>();
-        List<string> allSequences = GetAllSequences(text, length);
-        foreach (var t in allSequences)
+        Dictionary<string,Dictionary<char, int>> sequencesToCharCounts = new Dictionary<string,Dictionary<char, int>>();
+        for (int i = length; i < text.Length; i++)
         {
-            sequencesToCharFrequencies.Add(t,CalculateCharactersFrequencies(text, t));
+            string currentSeuqence = text.Substring(i - length, length);
+            if (!sequencesToCharCounts.ContainsKey(currentSeuqence))
+            {
+                sequencesToCharCounts.Add(currentSeuqence,new Dictionary<char,int>());
+                sequencesToCharFrequencies.Add(currentSeuqence,new Dictionary<char,float>());
+                sequencesToCharCounts[currentSeuqence].Add(text[i],1);
+            }
+            else
+            {
+                if (!sequencesToCharCounts[currentSeuqence].ContainsKey(text[i]))
+                {
+                    sequencesToCharCounts[currentSeuqence].Add(text[i],1);
+                }
+                else
+                {
+                    sequencesToCharCounts[currentSeuqence][text[i]]++;
+                }
+            }
+        }
+
+        foreach (var sequenceToCharCount in sequencesToCharCounts)
+        {
+            string currentSequence = sequenceToCharCount.Key;
+            int totalSequenceCount = sequenceToCharCount.Value.Sum(pair => pair.Value);
+            foreach (var charFrequency in sequencesToCharCounts[currentSequence])
+            {
+                sequencesToCharFrequencies[currentSequence].Add(
+                    charFrequency.Key,
+                    sequencesToCharCounts[currentSequence][charFrequency.Key] / (float)totalSequenceCount);
+            }
         }
 
         return sequencesToCharFrequencies;

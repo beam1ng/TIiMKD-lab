@@ -27,4 +27,17 @@ public static class RandomStringGenerator
 
         return generatedOutput.ToString();
     }
+    
+    public static string GenerateMarkovWeighed(int targetLength, MarkovWeighedRandomSelector selector, int markovLength)
+    {
+        var generatedOutput = new StringBuilder();
+        var prefixWord = "probability";
+        generatedOutput.Append(prefixWord);
+        for (int i = prefixWord.Length; i < targetLength+prefixWord.Length; i++)
+        {
+            generatedOutput.Append(selector.GetRandomCharacter(generatedOutput.ToString().Substring(i-markovLength,markovLength)));
+        }
+
+        return generatedOutput.ToString().Substring(prefixWord.Length,targetLength);
+    }
 }

@@ -2,8 +2,8 @@
 
 using TIiMKD_lab;
 
-string solutionDir = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())));
-string relativeFilePath = Path.Combine(solutionDir, "src", "norm_wiki_sample.txt");
+var solutionDir = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory())));
+var relativeFilePath = Path.Combine(solutionDir, "src", "norm_wiki_sample.txt");
 var wikiText = File.ReadAllText(relativeFilePath);
 
 // task 1
@@ -42,9 +42,9 @@ var wikiText = File.ReadAllText(relativeFilePath);
 var markovDegrees = new List<int> { 1, 3, 5 };
 foreach (var markovDegree in markovDegrees)
 {
-    var sequencesToCharsFrequencies = Utility.GetSequencesToCharFrequencies(wikiText,markovDegree);
+    var sequencesToCharsFrequencies = Utility.GetSequencesToCharFrequencies(wikiText, markovDegree);
     var markovSelector = new MarkovWeighedRandomSelector(sequencesToCharsFrequencies);
-    var markovGenerated = RandomStringGenerator.GenerateMarkovWeighed(10000,markovSelector,markovDegree);
-    Console.WriteLine($"MarkovDegree: {markovDegree}, Generated text: {markovGenerated.Substring(0,100)}...");
+    var markovGenerated = RandomStringGenerator.GenerateMarkovWeighed(10000, markovSelector, markovDegree);
+    Console.WriteLine($"MarkovDegree: {markovDegree}, Generated text: {markovGenerated.Substring(0, 100)}...");
     Console.WriteLine($"Mean word length: {Utility.CalculateMeanWordLength(markovGenerated)}");
 }

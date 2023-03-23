@@ -2,35 +2,33 @@
 
 public class MarkovWeighedRandomSelector
 {
-    private Dictionary<string, IEnumerable<KeyValuePair<char, float>>> sequencesToCharactersFrequencies = new();
-    private readonly Random random = new Random();
+    private readonly Random random = new();
 
-    public MarkovWeighedRandomSelector(Dictionary<string,Dictionary<char, float>> sequencesToCharactersFrequencies)
+    private readonly Dictionary<string, IEnumerable<KeyValuePair<char, float>>>
+        sequencesToCharactersFrequencies = new();
+
+    public MarkovWeighedRandomSelector(Dictionary<string, Dictionary<char, float>> sequencesToCharactersFrequencies)
     {
         foreach (var sequenceToCharactersFrequencies in sequencesToCharactersFrequencies)
         {
-            var orderedCharactersFrequencies = sequenceToCharactersFrequencies.Value.OrderByDescending(pair => pair.Value);
-            this.sequencesToCharactersFrequencies.Add(sequenceToCharactersFrequencies.Key,orderedCharactersFrequencies);
+            var orderedCharactersFrequencies =
+                sequenceToCharactersFrequencies.Value.OrderByDescending(pair => pair.Value);
+            this.sequencesToCharactersFrequencies.Add(sequenceToCharactersFrequencies.Key,
+                orderedCharactersFrequencies);
         }
     }
 
     public char GetRandomCharacter(string sequence)
     {
-        if (!sequencesToCharactersFrequencies.ContainsKey(sequence))
-        {
-            return Utility.GetRandomCharacter();
-        }
+        if (!sequencesToCharactersFrequencies.ContainsKey(sequence)) return Utility.GetRandomCharacter();
         float totalWeight = 0;
-        var weights = sequencesToCharactersFrequencies[sequence].Select(pair=>pair.Value).ToArray();
-        var elements = sequencesToCharactersFrequencies[sequence].Select(pair=>pair.Key).ToArray();
+        var weights = sequencesToCharactersFrequencies[sequence].Select(pair => pair.Value).ToArray();
+        var elements = sequencesToCharactersFrequencies[sequence].Select(pair => pair.Key).ToArray();
 
-        foreach (float weight in weights)
-        {
-            totalWeight += weight;
-        }
+        foreach (var weight in weights) totalWeight += weight;
 
-        double randomValue = random.NextDouble() * totalWeight;
-        int index = 0;
+        var randomValue = random.NextDouble() * totalWeight;
+        var index = 0;
 
         while (randomValue > weights[index])
         {

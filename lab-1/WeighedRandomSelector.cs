@@ -1,13 +1,10 @@
 ﻿namespace TIiMKD_lab;
 
-using System;
-using System.Collections.Generic;
-
 public class WeightedRandomSelector
 {
-    private readonly List<char> elements = new List<char>();
-    private readonly List<float> weights = new List<float>();
-    private readonly Random random = new Random();
+    private readonly List<char> elements = new();
+    private readonly Random random = new();
+    private readonly List<float> weights = new();
 
     public WeightedRandomSelector(Dictionary<char, float> elementsProbabilities)
     {
@@ -30,13 +27,10 @@ public class WeightedRandomSelector
 
         float totalWeight = 0;
 
-        foreach (float weight in weights)
-        {
-            totalWeight += weight;
-        }
+        foreach (var weight in weights) totalWeight += weight;
 
-        double randomValue = random.NextDouble() * totalWeight;
-        int index = 0;
+        var randomValue = random.NextDouble() * totalWeight;
+        var index = 0;
 
         while (randomValue > weights[index])
         {

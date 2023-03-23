@@ -2,9 +2,20 @@
 
 using TIiMKD_lab;
 
+if (args.Length != 3)
+{
+    Console.WriteLine($"Wrong number of arguments, expected 3, found {args.Length}");
+    return;
+}
+
+var inputFileName = args[0];
+var outputFileSize = Int32.Parse(args[1]);
+var outputFileName = args[2];
+
 var solutionDir = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory())));
-var relativeFilePath = Path.Combine(solutionDir, "src", "norm_wiki_sample.txt");
-var wikiText = File.ReadAllText(relativeFilePath);
+var relativeInputFilePath = Path.Combine(solutionDir, "src",  inputFileName);
+var relativeOutputFilePath = Path.Combine(solutionDir, "src",  outputFileName);
+var wikiText = File.ReadAllText(relativeInputFilePath);
 
 // task 1
 // var randomString = RandomStringGenerator.Generate(1000000);
@@ -40,11 +51,14 @@ var wikiText = File.ReadAllText(relativeFilePath);
 
 //task 5
 var markovDegrees = new List<int> { 1, 3, 5 };
+string markovGenerated = "";
 foreach (var markovDegree in markovDegrees)
 {
     var sequencesToCharsFrequencies = Utility.GetSequencesToCharFrequencies(wikiText, markovDegree);
     var markovSelector = new MarkovWeighedRandomSelector(sequencesToCharsFrequencies);
-    var markovGenerated = RandomStringGenerator.GenerateMarkovWeighed(10000, markovSelector, markovDegree);
+    markovGenerated = RandomStringGenerator.GenerateMarkovWeighed(outputFileSize, markovSelector, markovDegree);
     Console.WriteLine($"MarkovDegree: {markovDegree}, Generated text: {markovGenerated.Substring(0, 100)}...");
     Console.WriteLine($"Mean word length: {Utility.CalculateMeanWordLength(markovGenerated)}");
 }
+File.WriteAllText(relativeOutputFilePath,markovGenerated);
+Console.WriteLine($"The text generated using MarkovDegree=5 was saved to the file ${outputFileName}.");

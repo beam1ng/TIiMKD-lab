@@ -2,11 +2,11 @@
 
 public class WeightedRandomSelector
 {
-    private readonly List<char> elements = new();
+    private readonly List<string> elements = new();
     private readonly Random random = new();
     private readonly List<float> weights = new();
 
-    public WeightedRandomSelector(Dictionary<char, float> elementsProbabilities)
+    public WeightedRandomSelector(Dictionary<string, float> elementsProbabilities)
     {
         foreach (var elementsProbability in elementsProbabilities)
         {
@@ -15,13 +15,13 @@ public class WeightedRandomSelector
         }
     }
 
-    public void AddElement(char element, float weight)
+    public void AddElement(string element, float weight)
     {
         elements.Add(element);
         weights.Add(weight);
     }
 
-    public char GetRandomCharacter()
+    public string GetRandomWord()
     {
         if (elements.Count == 0) throw new InvalidOperationException("No elements added.");
 

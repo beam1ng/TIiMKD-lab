@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace lab_2;
 
 public static class Utility
@@ -58,5 +60,26 @@ public static class Utility
         }
 
         return sequencesToCharFrequencies;
+    }
+    
+    public static float CalculateMeanWordLength(string text)
+    {
+        var mutableText = new StringBuilder("");
+
+        //remove sibling spaces
+        for (var i = 1; i < text.Length - 1; i++)
+        {
+            if (text[i] == ' ')
+                if (text[i + 1] == ' ' || mutableText.Length == 0)
+                    continue;
+
+            mutableText.Append(text[i]);
+        }
+
+        if (text[text.Length - 1] != ' ') mutableText.Append(text[text.Length - 1]);
+
+        text = mutableText.ToString();
+        var split = text.Split();
+        return (text.Length - (float)split.Length) / split.Length; //divide spaceless text by words count
     }
 }

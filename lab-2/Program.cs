@@ -25,18 +25,14 @@ var wikiText = File.ReadAllText(relativeFilePath);
 
 #pragma region homework
 var sequencesToFrequencies = Utility.GetSequencesToStringFrequencies(wikiText, 1);
-var markovStream = new MarkovWeighedRandomSelector(sequencesToFrequencies);
 
-var prefix = "probability that";
-var markovDegrees = new List<int> { 1, 2 };
+var prefixes = new List<string> {"hello", "it is", "probability that" };
+var markovDegrees = new List<int> { 1, 2, 2 };
 var markovGenerated = "";
-foreach (var markovDegree in markovDegrees)
+for (int i = 0; i < markovDegrees.Count;i++)
 {
-    var sequencesToCharsFrequencies = Utility.GetSequencesToCharFrequencies(wikiText, markovDegree);
+    var sequencesToCharsFrequencies = Utility.GetSequencesToStringFrequencies(wikiText, markovDegrees[i]);
     var markovSelector = new MarkovWeighedRandomSelector(sequencesToCharsFrequencies);
-    markovGenerated = RandomStringGenerator.GenerateMarkovWeighed(outputFileSize, markovSelector, markovDegree);
-    Console.WriteLine($"MarkovDegree: {markovDegree}, Generated text: {markovGenerated.Substring(0, 100)}...");
-    Console.WriteLine($"Mean word length: {Utility.CalculateMeanWordLength(markovGenerated)}");
+    markovGenerated = RandomStringGenerator.GenerateMarkovWeighed(1000, markovSelector, prefixes[i], markovDegrees[i]);
+    Console.WriteLine($"MarkovDegree: {markovDegrees[i]}, Generated text: ...{markovGenerated.Substring(0, 100)}...");
 }
-File.WriteAllText(relativeOutputFilePath,markovGenerated);
-Console.WriteLine($"The text generated using MarkovDegree=5 was saved to the file ${outputFileName}.");

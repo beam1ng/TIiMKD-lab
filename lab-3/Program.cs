@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using lab_3;
+﻿using lab_3;
 
 namespace Lab_3
 {
